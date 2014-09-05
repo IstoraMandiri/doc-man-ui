@@ -1,0 +1,9 @@
+<template name="docManScrollView">
+  <div class="doc-man-scroll-view">
+    {{#each pages}}
+      <div class="doc-man-scroll-page doc-man-page">
+        <img src="{{thumbnail 'regular'}}"/>
+      </div>
+    {{/each}}
+  </div>
+</template>
