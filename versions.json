@@ -173,6 +173,10 @@
       "1.0.3"
     ],
     [
+      "noorderstorm:hammer",
+      "0.1.0"
+    ],
+    [
       "observe-sequence",
       "1.0.1"
     ],
@@ -186,6 +190,10 @@
     ],
     [
       "random",
+      "1.0.0"
+    ],
+    [
+      "reactive-dict",
       "1.0.0"
     ],
     [

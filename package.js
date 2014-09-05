@@ -13,8 +13,10 @@ Package.onUse(function(api) {
     'coffeescript',
     'less',
     'templating',
+    'reactive-dict',
     'hitchcott:docman',
-    'hitchcott:panzoom'
+    'hitchcott:panzoom',
+    'noorderstorm:hammer'
   ], ['client'])
 
   api.addFiles([
