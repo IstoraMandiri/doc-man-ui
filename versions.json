@@ -105,12 +105,8 @@
       "1.0.0"
     ],
     [
-      "hitchcott:docman",
-      "1.1.1"
-    ],
-    [
       "hitchcott:panzoom",
-      "1.0.0"
+      "1.0.1"
     ],
     [
       "html-tools",
@@ -219,6 +215,10 @@
     [
       "spacebars-compiler",
       "1.0.1"
+    ],
+    [
+      "tap:doc-man",
+      "1.1.1"
     ],
     [
       "templating",

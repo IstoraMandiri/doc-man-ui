@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "UI Elements for hitchcott:docman",
+  summary: "UI Elements for tap:doc-man",
   version: "1.0.0",
   name: 'tap:doc-man-ui'
 });
