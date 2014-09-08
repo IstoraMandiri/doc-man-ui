@@ -1,7 +1,7 @@
 Package.describe({
   summary: "UI Elements for hitchcott:docman",
   version: "1.0.0",
-  name: 'hitchcott:docman-ui'
+  name: 'tap:doc-man-ui'
 });
 
 Package.onUse(function(api) {
@@ -14,8 +14,8 @@ Package.onUse(function(api) {
     'less',
     'templating',
     'reactive-dict',
-    'hitchcott:docman',
-    'hitchcott:panzoom',
+    'tap:doc-man@1.1.1',
+    'hitchcott:panzoom@1.0.1',
     'noorderstorm:hammer'
   ], ['client'])
 
