@@ -54,7 +54,6 @@ Template.docManSwipeView.rendered = ->
     contain: 'invert'
 
   .on 'panzoomend', (e,panzoom,matrix) ->
-    console.log $image.panzoom("getMatrix")[0]
     if matrix[0] >= ZOOM_THREASHOLD and !$image.hasClass(ZOOM_CLASS)
       $image.addClass(ZOOM_CLASS)
       bigSrc = page().thumbnail('large')
