@@ -7,6 +7,10 @@ Template.docManSwipeView.helpers
   'currentPageNumber' : -> pageStore.get @_id
   'pageThumb': -> @page(pageStore.get(@_id))?.thumbnail('regular')
 
+Template.docManSwipeView.events
+  'mousedown .next-page, touchstart .next-page' : -> movePages @_id, 1
+  'mousedown .prev-page, touchstart .prev-page' : -> movePages @_id, -1
+
 movePages = (docId, dir) ->
   currentPage = pageStore.get docId
   maxPages = pageStore.get "#{docId}_pages"
