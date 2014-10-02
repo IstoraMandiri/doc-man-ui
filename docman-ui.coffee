@@ -25,6 +25,7 @@ Template.docManSwipeView.rendered = ->
     pageStore.set "#{@data._id}_pages", @data.pageCount
 
   self = @
+  $container = $(@find('.doc-man-swipe-view'))
   $image = $(@find('img.doc-man-page'))
 
   page = -> self.data.page pageStore.get self.data._id
@@ -41,7 +42,8 @@ Template.docManSwipeView.rendered = ->
       $image.removeClass ZOOM_CLASS
     , 10
 
-  $image.hammer().on 'swipe', (e) ->
+  swipeEvent = (e) ->
+    e.stopPropagation()
     if $image.panzoom("getMatrix")[0] < ZOOM_THREASHOLD # prevent accidental swiping
       if e.gesture.direction is 'left'
         resetZoom()
@@ -52,6 +54,8 @@ Template.docManSwipeView.rendered = ->
         resetZoom()
         movePages self.data._id, -1
 
+  $container.hammer().on 'swipe', swipeEvent
+  $image.hammer().on 'swipe', swipeEvent
   .panzoom
     minScale: 1
     maxScale: 5
