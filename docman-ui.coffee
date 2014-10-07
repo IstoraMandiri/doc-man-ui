@@ -10,15 +10,28 @@ Template.docManSwipeView.helpers
       @doc.page(pageStore.get(@doc._id))?.thumbnail('regular')
 
 Template.docManSwipeView.events
-  'mousedown .next-page, touchstart .next-page' : -> movePages @doc._id, 1
-  'mousedown .prev-page, touchstart .prev-page' : -> movePages @doc._id, -1
+  'mousedown .next-page, touchstart .next-page' : (e,tmpl) -> movePages @doc, 1, $(tmpl.find('img.doc-man-page'))
+  'mousedown .prev-page, touchstart .prev-page' : (e,tmpl) -> movePages @doc, -1, $(tmpl.find('img.doc-man-page'))
 
-movePages = (docId, dir) ->
-  currentPage = pageStore.get docId
-  maxPages = pageStore.get "#{docId}_pages"
+resetZoom = ($image) ->
+  $image.panzoom('reset', {animate: false})
+  setTimeout ->
+    $image.removeClass ZOOM_CLASS
+  , 10
+
+preCacheNextPage = (doc) ->
+  nextPage = doc.page(pageStore.get(doc._id)+1)?.thumbnail('regular')
+  if nextPage?
+    $("<img src='#{nextPage}'>")
+
+movePages = (doc, dir, $image) ->
+  currentPage = pageStore.get doc._id
+  maxPages = pageStore.get "#{doc._id}_pages"
   nextPage = currentPage + dir
   if nextPage > 0 and nextPage <= maxPages
-    pageStore.set docId, nextPage
+    pageStore.set doc._id, nextPage
+    resetZoom $image
+    preCacheNextPage doc
 
 Template.docManSwipeView.rendered = ->
   pageStore.set @data.doc._id, 1
@@ -31,29 +44,16 @@ Template.docManSwipeView.rendered = ->
 
   page = -> self.data.doc.page pageStore.get self.data.doc._id
 
-  # precache next page
-  do preCacheNextPage = ->
-    nextPage = self.data.doc.page(pageStore.get(self.data.doc._id)+1)?.thumbnail('regular')
-    if nextPage?
-      $("<img src='#{nextPage}'>")
-
-  resetZoom = ->
-    $image.panzoom('reset', {animate: false})
-    setTimeout ->
-      $image.removeClass ZOOM_CLASS
-    , 10
+  preCacheNextPage self.data.doc
 
   swipeEvent = (e) ->
     e.stopPropagation()
     if $image.panzoom("getMatrix")[0] < ZOOM_THREASHOLD # prevent accidental swiping
       if e.gesture.direction is 'left'
-        resetZoom()
-        movePages self.data.doc._id, 1
-        preCacheNextPage()
+        movePages self.data.doc, 1, $image
 
       else if e.gesture.direction is 'right'
-        resetZoom()
-        movePages self.data.doc._id, -1
+        movePages self.data.doc, -1, $image
 
   $container.hammer().on 'swipe', swipeEvent
   $image.hammer().on 'swipe', swipeEvent
