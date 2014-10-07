@@ -9,18 +9,25 @@
 </template>
 
 <template name="docManSwipeView">
-
   <div class="doc-man-swipe-view">
     <div class="page-navigation">
       <div class="capsule">
         <div class="prev-page">
-          &lt;
+          {{#if fontAwesome}}
+            <i class='fa fa-fw fa-chevron-left'></i>
+          {{else}}
+            &lt;
+          {{/if}}
         </div>
         <div class="page-position">
-          Page {{currentPageNumber}} of {{pageCount}}
+          Page {{currentPageNumber}} of {{doc.pageCount}}
         </div>
         <div class="next-page">
-          &gt;
+          {{#if fontAwesome}}
+            <i class='fa fa-fw fa-chevron-right'></i>
+          {{else}}
+            &gt;
+          {{/if}}
         </div>
       </div>
     </div>

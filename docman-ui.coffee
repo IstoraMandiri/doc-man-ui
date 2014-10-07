@@ -4,12 +4,14 @@ pageStore = new ReactiveDict
 handler = null
 
 Template.docManSwipeView.helpers
-  'currentPageNumber' : -> pageStore.get @_id
-  'pageThumb': -> @page(pageStore.get(@_id))?.thumbnail('regular')
+  'currentPageNumber' : -> pageStore.get @doc._id
+  'pageThumb': ->
+    if @doc?.page
+      @doc.page(pageStore.get(@doc._id))?.thumbnail('regular')
 
 Template.docManSwipeView.events
-  'mousedown .next-page, touchstart .next-page' : -> movePages @_id, 1
-  'mousedown .prev-page, touchstart .prev-page' : -> movePages @_id, -1
+  'mousedown .next-page, touchstart .next-page' : -> movePages @doc._id, 1
+  'mousedown .prev-page, touchstart .prev-page' : -> movePages @doc._id, -1
 
 movePages = (docId, dir) ->
   currentPage = pageStore.get docId
@@ -19,20 +21,19 @@ movePages = (docId, dir) ->
     pageStore.set docId, nextPage
 
 Template.docManSwipeView.rendered = ->
-  pageStore.set @data._id, 1
-
+  pageStore.set @data.doc._id, 1
   handler = Deps.autorun =>
-    pageStore.set "#{@data._id}_pages", @data.pageCount
+    pageStore.set "#{@data.doc._id}_pages", @data.doc.pageCount
 
   self = @
   $container = $(@find('.doc-man-swipe-view'))
   $image = $(@find('img.doc-man-page'))
 
-  page = -> self.data.page pageStore.get self.data._id
+  page = -> self.data.doc.page pageStore.get self.data.doc._id
 
   # precache next page
   do preCacheNextPage = ->
-    nextPage = self.data.page(pageStore.get(self.data._id)+1)?.thumbnail('regular')
+    nextPage = self.data.doc.page(pageStore.get(self.data.doc._id)+1)?.thumbnail('regular')
     if nextPage?
       $("<img src='#{nextPage}'>")
 
@@ -47,12 +48,12 @@ Template.docManSwipeView.rendered = ->
     if $image.panzoom("getMatrix")[0] < ZOOM_THREASHOLD # prevent accidental swiping
       if e.gesture.direction is 'left'
         resetZoom()
-        movePages self.data._id, 1
+        movePages self.data.doc._id, 1
         preCacheNextPage()
 
       else if e.gesture.direction is 'right'
         resetZoom()
-        movePages self.data._id, -1
+        movePages self.data.doc._id, -1
 
   $container.hammer().on 'swipe', swipeEvent
   $image.hammer().on 'swipe', swipeEvent

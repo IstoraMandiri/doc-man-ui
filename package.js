@@ -1,6 +1,6 @@
 Package.describe({
   summary: "UI Elements for tap:doc-man",
-  version: "1.0.0",
+  version: "1.1.0",
   name: 'tap:doc-man-ui'
 });
 
