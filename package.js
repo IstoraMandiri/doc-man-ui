@@ -14,7 +14,7 @@ Package.onUse(function(api) {
     'less',
     'templating',
     'reactive-dict',
-    'tap:doc-man@1.1.1',
+    'tap:doc-man@1.1.2',
     'hitchcott:panzoom@1.0.1',
     'noorderstorm:hammer'
   ], ['client'])
